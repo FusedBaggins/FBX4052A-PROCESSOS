@@ -7,7 +7,7 @@
 #pragma pack(1)
 
 #define MASCARA 7
-#define NRO_PROCESSOS 4
+#define NRO_PROCESSOS 5
 
 struct cabecalho
 {
@@ -228,13 +228,13 @@ int main(int argc, char **argv)
     FILE *arq_entrada, *arq_saida;
     char nome_arquivo_entrada[100], nome_arquivo_saida[100];
 
-    printf("Digite o nome do arquivo de entrada:\n");
-    scanf("%s", nome_arquivo_entrada);
+    // printf("Digite o nome do arquivo de entrada:\n");
+    // scanf("%s", nome_arquivo_entrada);
 
-    printf("Digite o nome do arquivo de saida:\n");
-    scanf("%s", nome_arquivo_saida);
+    // printf("Digite o nome do arquivo de saida:\n");
+    // scanf("%s", nome_arquivo_saida);
 
-    arq_entrada = fopen(nome_arquivo_entrada, "rb");
+    arq_entrada = fopen("borboleta.bmp", "rb");
 
     if (arq_entrada == NULL)
     {
@@ -242,7 +242,7 @@ int main(int argc, char **argv)
         exit(0);
     }
 
-    arq_saida = fopen(nome_arquivo_saida, "wb");
+    arq_saida = fopen("borboleta10.bmp", "wb");
 
     if (arq_saida == NULL)
     {
@@ -251,7 +251,6 @@ int main(int argc, char **argv)
     }
 
     fread(&cabecalho, sizeof(CABECALHO), 1, arq_entrada);
-    fwrite(&cabecalho, sizeof(CABECALHO), 1, arq_saida);
 
     shmid = shmget(5, cabecalho.altura * cabecalho.largura * sizeof(RGB), IPC_CREAT | 0600);
 
@@ -281,6 +280,7 @@ int main(int argc, char **argv)
 
     if (!id)
     {
+        fwrite(&cabecalho, sizeof(CABECALHO), 1, arq_saida);
         salvar_imagem(valor_inicial, id, cabecalho.altura, cabecalho.largura, arq_saida, valores_saida);
         shmdt(valores_saida);
         shmctl(shmid, IPC_RMID, NULL);
