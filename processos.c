@@ -6,8 +6,8 @@
 #include <sys/shm.h>
 #pragma pack(1)
 
-#define MASCARA 7
-#define NRO_PROCESSOS 5
+#define MASCARA 3
+#define NRO_PROCESSOS 3
 
 struct cabecalho
 {
@@ -290,11 +290,6 @@ int main(int argc, char **argv)
         shmdt(valores_saida);
         shmctl(shmid, IPC_RMID, NULL);
     }
-
-    free(valores);
-
-    // bug abrir a imagem
-    // free(valores_saida);
 
     fclose(arq_entrada);
     fclose(arq_saida);
